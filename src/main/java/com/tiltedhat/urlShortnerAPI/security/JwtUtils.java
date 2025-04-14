@@ -1,20 +1,20 @@
-package security;
+package com.tiltedhat.urlShortnerAPI.security;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
-import service.UserDetailsImpl;
+import org.springframework.stereotype.Component;
+import com.tiltedhat.urlShortnerAPI.service.UserDetailsImpl;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+@Component
 public class JwtUtils {
     @Value("${jwt.secret}")
     private String jwtSecret;

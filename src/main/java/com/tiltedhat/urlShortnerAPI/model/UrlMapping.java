@@ -1,4 +1,4 @@
-package model;
+package com.tiltedhat.urlShortnerAPI.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

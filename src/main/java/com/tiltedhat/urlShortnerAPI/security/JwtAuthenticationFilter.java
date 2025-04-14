@@ -1,4 +1,4 @@
-package security;
+package com.tiltedhat.urlShortnerAPI.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,8 +24,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-
-
         try {
             // Get JWT from header
             String jwt = jwtTokenProvider.getjwtFromHeader(request);

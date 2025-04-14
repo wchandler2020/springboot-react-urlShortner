@@ -1,8 +1,8 @@
-package service;
+package com.tiltedhat.urlShortnerAPI.service;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import model.User;
+import com.tiltedhat.urlShortnerAPI.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

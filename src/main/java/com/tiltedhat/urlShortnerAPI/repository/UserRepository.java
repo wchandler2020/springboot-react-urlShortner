@@ -1,6 +1,6 @@
-package repository;
+package com.tiltedhat.urlShortnerAPI.repository;
 
-import model.User;
+import com.tiltedhat.urlShortnerAPI.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
