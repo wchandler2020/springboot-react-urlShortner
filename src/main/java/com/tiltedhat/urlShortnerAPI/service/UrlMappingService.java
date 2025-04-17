@@ -1,19 +1,24 @@
 package com.tiltedhat.urlShortnerAPI.service;
 
+import com.tiltedhat.urlShortnerAPI.dto.ClickEventDTO;
 import com.tiltedhat.urlShortnerAPI.dto.UrlMappingDTO;
 import com.tiltedhat.urlShortnerAPI.model.UrlMapping;
 import com.tiltedhat.urlShortnerAPI.model.User;
+import com.tiltedhat.urlShortnerAPI.repository.ClickEventRepository;
 import com.tiltedhat.urlShortnerAPI.repository.UrlMappingRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class UrlMappingService {
     private UrlMappingRepository urlMappingRepository;
+    private ClickEventRepository clickEventRepository;
     public UrlMappingDTO createShortUrl(String originalUrl, User user) {
         String shortUrl = generateShortUrl();
         UrlMapping urlMapping = new UrlMapping();
@@ -44,5 +49,28 @@ public class UrlMappingService {
             shortUrl.append(characters.charAt(random.nextInt(characters.length())));
         }
         return shortUrl.toString();
+    }
+
+    public List<UrlMappingDTO> getUrlsByUser(User user) {
+        return urlMappingRepository.findByUser(user).stream()
+                .map(this::convertToDto)
+                .toList();
+    }
+
+    public List<ClickEventDTO> getClickEventsByDate(String shortUrl, LocalDateTime start, LocalDateTime end) {
+        UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
+        if(urlMapping != null){
+            return clickEventRepository.findByUrlMappingAndClickDateBetween(urlMapping, start, end)
+                    .stream()
+                    .collect(Collectors.groupingBy(click -> click.getClickDate().toLocalDate(), Collectors.counting()))
+                    .entrySet().stream().map(entry -> {
+                        ClickEventDTO clickEventDTO = new ClickEventDTO();
+                        clickEventDTO.setClickDate(entry.getKey());
+                        clickEventDTO.setCount((entry.getValue()));
+                        return clickEventDTO;
+                    })
+                    .collect(Collectors.toList());
+        }
+        return null;
     }
 }
