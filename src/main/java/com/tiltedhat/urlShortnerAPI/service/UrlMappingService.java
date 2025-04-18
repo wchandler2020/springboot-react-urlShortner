@@ -2,6 +2,7 @@ package com.tiltedhat.urlShortnerAPI.service;
 
 import com.tiltedhat.urlShortnerAPI.dto.ClickEventDTO;
 import com.tiltedhat.urlShortnerAPI.dto.UrlMappingDTO;
+import com.tiltedhat.urlShortnerAPI.model.ClickEvent;
 import com.tiltedhat.urlShortnerAPI.model.UrlMapping;
 import com.tiltedhat.urlShortnerAPI.model.User;
 import com.tiltedhat.urlShortnerAPI.repository.ClickEventRepository;
@@ -9,8 +10,10 @@ import com.tiltedhat.urlShortnerAPI.repository.UrlMappingRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -72,5 +75,26 @@ public class UrlMappingService {
                     .collect(Collectors.toList());
         }
         return null;
+    }
+
+    public Map<LocalDate, Long> getTotalClicksByUserAndDate(User user, LocalDate start, LocalDate end) {
+        List<UrlMapping> urlMappings = urlMappingRepository.findByUser(user);
+        List<ClickEvent> clickEvents = clickEventRepository.findByUrlMappingInAndClickDateBetween(urlMappings, start.atStartOfDay(), end.plusDays(1).atStartOfDay());
+        return  clickEvents.stream().collect(Collectors.groupingBy(click -> click.getClickDate().toLocalDate(), Collectors.counting()));
+    }
+
+    public UrlMapping getOriginalurl(String shortUrl) {
+        UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
+        if(urlMapping != null){
+            urlMapping.setClickCount(urlMapping.getClickCount() + 1);
+            urlMappingRepository.save(urlMapping);
+
+            //record click event
+            ClickEvent clickEvent = new ClickEvent();
+            clickEvent.setClickDate(LocalDateTime.now());
+            clickEvent.setUrlMapping(urlMapping);
+            clickEventRepository.save(clickEvent);
+        }
+        return urlMapping;
     }
 }
