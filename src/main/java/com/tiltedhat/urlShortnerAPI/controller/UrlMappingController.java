@@ -20,6 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/urls")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UrlMappingController {
     private final UrlMappingService urlMappingService;
     private final UserService userService;
@@ -46,7 +47,7 @@ public class UrlMappingController {
         return ResponseEntity.ok(urls);
     }
 
-    @GetMapping("/analytics/{shorturl}")
+    @GetMapping("/analytics/{shortUrl}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<ClickEventDTO>> getUrlAnalytics(@PathVariable String shortUrl, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate){
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
@@ -56,7 +57,7 @@ public class UrlMappingController {
         return ResponseEntity.ok(clickEventDTOS);
     }
 
-    @GetMapping("/totalclicks")
+    @GetMapping("/totalClicks")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Map<LocalDate, Long>> getTotalClicksByDate(Principal principal,
                                                                      @RequestParam("startDate") String startDate,
