@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://spiffy-blini-477fea.netlify.app")
 public class RedirectController {
     private final UrlMappingService urlMappingService;
 

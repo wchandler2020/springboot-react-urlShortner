@@ -11,7 +11,7 @@ import com.tiltedhat.urlShortnerAPI.service.UserService;
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://spiffy-blini-477fea.netlify.app")
 public class AuthController {
 
     private UserService userService;

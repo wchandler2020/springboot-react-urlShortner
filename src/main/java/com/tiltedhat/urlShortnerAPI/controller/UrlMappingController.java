@@ -20,7 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/urls")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://spiffy-blini-477fea.netlify.app")
 public class UrlMappingController {
     private final UrlMappingService urlMappingService;
     private final UserService userService;
