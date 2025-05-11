@@ -5,15 +5,13 @@ import com.tiltedhat.urlShortnerAPI.dto.RegisterRequest;
 import lombok.AllArgsConstructor;
 import com.tiltedhat.urlShortnerAPI.model.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.tiltedhat.urlShortnerAPI.service.UserService;
 
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
 
     private UserService userService;
